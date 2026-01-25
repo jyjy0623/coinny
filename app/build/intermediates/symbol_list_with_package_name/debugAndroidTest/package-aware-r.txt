@@ -1,0 +1,3 @@
+com.coinny.storedcard.test
+style WhiteBackgroundDialogTheme
+style WhiteBackgroundTheme

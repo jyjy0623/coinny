@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">储值卡记账</string>
+
+    <!-- Common -->
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    <string name="delete">删除</string>
+    <string name="edit">编辑</string>
+    <string name="save">保存</string>
+    <string name="confirm">确认</string>
+
+    <!-- Main Activity -->
+    <string name="main_title">我的储值卡</string>
+    <string name="add_card">添加卡片</string>
+    <string name="no_cards">还没有储值卡，点击+添加</string>
+    <string name="menu_statistics">统计报表</string>
+    <string name="menu_backup">备份导出</string>
+    <string name="menu_restore">导入恢复</string>
+    <string name="menu_check_update">检查更新</string>
+
+    <!-- Card Types -->
+    <string name="card_type_amount">金额卡</string>
+    <string name="card_type_count">次数卡</string>
+    <string name="card_type_daily">天数卡</string>
+
+    <!-- Card Status -->
+    <string name="status_active">使用中</string>
+    <string name="status_paused">已暂停</string>
+    <string name="status_expired">已过期</string>
+
+    <!-- Add/Edit Card -->
+    <string name="add_card_title">添加储值卡</string>
+    <string name="edit_card_title">编辑储值卡</string>
+    <string name="card_name">卡片名称</string>
+    <string name="card_name_hint">例如：健身卡</string>
+    <string name="card_type">卡片类型</string>
+    <string name="initial_value">初始值</string>
+    <string name="amount_hint">金额（元）</string>
+    <string name="count_hint">次数</string>
+    <string name="days_hint">天数</string>
+    <string name="daily_rate">每天收费</string>
+    <string name="daily_rate_hint">每天扣费金额（元）</string>
+    <string name="expiry_date">过期时间</string>
+    <string name="select_date">选择日期</string>
+    <string name="no_expiry">无期限</string>
+
+    <!-- Card Detail -->
+    <string name="card_detail_title">卡片详情</string>
+    <string name="remaining_balance">剩余</string>
+    <string name="initial_balance">初始</string>
+    <string name="expiry">过期时间</string>
+    <string name="created_at">创建时间</string>
+    <string name="recharge">充值</string>
+    <string name="deduct">扣费</string>
+    <string name="pause">暂停</string>
+    <string name="resume">启用</string>
+    <string name="transaction_history">交易记录</string>
+    <string name="no_transactions">暂无交易记录</string>
+    <string name="delete_card_confirm">确定要删除这张卡片吗？</string>
+
+    <!-- Deduct/Recharge -->
+    <string name="deduct_title">扣费</string>
+    <string name="recharge_title">充值</string>
+    <string name="amount">金额</string>
+    <string name="count">次数</string>
+    <string name="note">备注</string>
+    <string name="note_hint">选填</string>
+
+    <!-- Transaction Types -->
+    <string name="transaction_create">创建</string>
+    <string name="transaction_recharge">充值</string>
+    <string name="transaction_deduct">扣费</string>
+
+    <!-- Statistics -->
+    <string name="statistics_title">统计报表</string>
+    <string name="date_range">日期范围</string>
+    <string name="total_spending">总支出</string>
+    <string name="total_recharge">总充值</string>
+    <string name="transaction_count">交易次数</string>
+    <string name="spending_by_card">各卡消费分布</string>
+    <string name="spending_trend">消费趋势</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_name">储值卡提醒</string>
+    <string name="notification_expiry_title">储值卡即将过期</string>
+    <string name="notification_low_balance_title">储值卡余额不足</string>
+
+    <!-- Messages -->
+    <string name="success_card_created">卡片创建成功</string>
+    <string name="success_card_updated">卡片更新成功</string>
+    <string name="success_card_deleted">卡片删除成功</string>
+    <string name="success_deduct">扣费成功</string>
+    <string name="success_recharge">充值成功</string>
+    <string name="success_backup">备份成功</string>
+    <string name="success_restore">恢复成功</string>
+    <string name="error_card_not_found">卡片不存在</string>
+    <string name="error_invalid_input">请输入有效的数值</string>
+    <string name="error_backup_failed">备份失败</string>
+    <string name="error_restore_failed">恢复失败</string>
+
+    <!-- Units -->
+    <string name="currency_symbol">¥</string>
+    <string name="times_unit">次</string>
+    <string name="days_unit">天</string>
+    <string name="days_left">剩余%d天</string>
+</resources>

@@ -1,0 +1,6 @@
+com.coinny.storedcard.test.app-core-1.5.0-0 C:\Users\ml145\.gradle\caches\transforms-3\89e8960b8ead546d629182f3cea013d4\transformed\core-1.5.0\res
+com.coinny.storedcard.test.app-annotation-experimental-1.3.0-1 C:\Users\ml145\.gradle\caches\transforms-3\a7ede15f9312aea614d9e837ebc2e17a\transformed\annotation-experimental-1.3.0\res
+com.coinny.storedcard.test.app-androidTest-2 D:\workspace\coinny\app\build\generated\res\resValues\androidTest\debug
+com.coinny.storedcard.test.app-mergeDebugAndroidTestResources-3 D:\workspace\coinny\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.coinny.storedcard.test.app-mergeDebugAndroidTestResources-4 D:\workspace\coinny\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.coinny.storedcard.test.app-merged_res-5 D:\workspace\coinny\app\build\intermediates\merged_res\debugAndroidTest

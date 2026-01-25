@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "com.coinny.storedcard.app-mergeReleaseResources-45:/layout/item_card.xml",
+        "source": "com.coinny.storedcard.app-main-47:/layout/item_card.xml"
+    },
+    {
+        "merged": "com.coinny.storedcard.app-mergeReleaseResources-45:/layout/dialog_deduct.xml",
+        "source": "com.coinny.storedcard.app-main-47:/layout/dialog_deduct.xml"
+    },
+    {
+        "merged": "com.coinny.storedcard.app-mergeReleaseResources-45:/layout/activity_add_edit_card.xml",
+        "source": "com.coinny.storedcard.app-main-47:/layout/activity_add_edit_card.xml"
+    },
+    {
+        "merged": "com.coinny.storedcard.app-mergeReleaseResources-45:/layout/item_transaction.xml",
+        "source": "com.coinny.storedcard.app-main-47:/layout/item_transaction.xml"
+    },
+    {
+        "merged": "com.coinny.storedcard.app-mergeReleaseResources-45:/layout/activity_main.xml",
+        "source": "com.coinny.storedcard.app-main-47:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.coinny.storedcard.app-mergeReleaseResources-45:/layout/activity_card_detail.xml",
+        "source": "com.coinny.storedcard.app-main-47:/layout/activity_card_detail.xml"
+    }
+]

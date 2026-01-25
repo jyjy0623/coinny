@@ -1,0 +1,29 @@
+pluginManagement {
+    repositories {
+        // 阿里云镜像 - 加速下载
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        // 原始仓库作为备用
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        // 阿里云镜像 - 加速下载
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        // JitPack（用于第三方库）
+        maven { url 'https://jitpack.io' }
+        // 原始仓库作为备用
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "StoredCard"
+include ':app'

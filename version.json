@@ -1,0 +1,7 @@
+{
+  "versionCode": 2,
+  "versionName": "1.1.0",
+  "downloadUrl": "https://ghfast.top/https://github.com/jyjy0623/coinny/releases/download/v1.1.0/coinny-v1.1.0-release.apk",
+  "updateMessage": "更新内容：\n1. 修改天数卡功能，支持按金额计费\n2. 添加每天收费金额配置\n3. 优化深色主题显示\n4. 添加手动检查更新功能\n5. 修复深色主题菜单文字显示问题\n6. 实现数据库迁移，保护用户数据",
+  "forceUpdate": false
+}
