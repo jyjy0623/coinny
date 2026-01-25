@@ -1,5 +1,5 @@
 {
-  "versionCode": 2,
+  "versionCode": 1,
   "versionName": "1.1.0",
   "downloadUrl": "https://your-domain.com/downloads/coinny-v1.1.0.apk",
   "updateMessage": "更新内容：\n1. 修改天数卡功能，支持按金额计费\n2. 添加每天收费金额配置\n3. 优化深色主题显示\n4. 添加手动检查更新功能\n5. 实现数据库迁移，保护用户数据",
