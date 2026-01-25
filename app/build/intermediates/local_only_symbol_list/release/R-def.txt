@@ -46,6 +46,8 @@ drawable ic_launcher_background
 drawable ic_notification
 id action_backup
 id action_check_update
+id action_delete
+id action_edit
 id action_restore
 id action_statistics
 id btnCancel
@@ -87,6 +89,7 @@ layout activity_main
 layout dialog_deduct
 layout item_card
 layout item_transaction
+menu menu_card_detail
 menu menu_main
 mipmap ic_launcher
 mipmap ic_launcher_foreground

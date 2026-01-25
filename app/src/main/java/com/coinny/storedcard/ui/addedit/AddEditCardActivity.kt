@@ -2,6 +2,7 @@ package com.coinny.storedcard.ui.addedit
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -17,25 +18,34 @@ class AddEditCardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddEditCardBinding
     private val viewModel: AddEditCardViewModel by viewModels { AddEditCardViewModel.Factory(this) }
     private var selectedExpiryDate: Long? = null
+    private var cardId: Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddEditCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = getString(R.string.add_card_title)
+        cardId = intent.getLongExtra("CARD_ID", -1)
+        
+        if (cardId != -1L) {
+            supportActionBar?.title = getString(R.string.edit_card_title)
+            viewModel.loadCard(cardId)
+        } else {
+            supportActionBar?.title = getString(R.string.add_card_title)
+        }
+        
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         setupListeners()
+        observeViewModel()
     }
 
     private fun setupListeners() {
         binding.rgCardType.setOnCheckedChangeListener { _, checkedId ->
-            // 只有选择天数卡时才显示每天收费输入框
             binding.tilDailyRate.visibility = if (checkedId == R.id.rbDaily) {
-                android.view.View.VISIBLE
+                View.VISIBLE
             } else {
-                android.view.View.GONE
+                View.GONE
             }
         }
 
@@ -48,8 +58,46 @@ class AddEditCardActivity : AppCompatActivity() {
         }
     }
 
+    private fun observeViewModel() {
+        lifecycleScope.launch {
+            viewModel.card.collect { card ->
+                card?.let {
+                    binding.etCardName.setText(it.name)
+                    binding.etInitialValue.setText(it.initialValue.toString())
+                    // 编辑模式下不允许修改卡片类型，因为这会影响已有的交易记录
+                    binding.rgCardType.isEnabled = false
+                    binding.rbAmount.isEnabled = false
+                    binding.rbCount.isEnabled = false
+                    binding.rbDaily.isEnabled = false
+                    
+                    when (it.type) {
+                        CardType.AMOUNT -> binding.rbAmount.isChecked = true
+                        CardType.COUNT -> binding.rbCount.isChecked = true
+                        CardType.DAILY -> {
+                            binding.rbDaily.isChecked = true
+                            binding.tilDailyRate.visibility = View.VISIBLE
+                            binding.etDailyRate.setText(it.dailyRate?.toString() ?: "")
+                        }
+                    }
+                    
+                    // 编辑模式下也不建议修改初始值，除非确实填错了且没有交易
+                    binding.etInitialValue.isEnabled = false
+
+                    if (it.expiryDate != null) {
+                        selectedExpiryDate = it.expiryDate
+                        binding.tvSelectedDate.text = DateUtil.formatDate(it.expiryDate!!)
+                    }
+                }
+            }
+        }
+    }
+
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
+        if (selectedExpiryDate != null) {
+            calendar.timeInMillis = selectedExpiryDate!!
+        }
+        
         DatePickerDialog(
             this,
             { _, year, month, dayOfMonth ->
@@ -92,7 +140,6 @@ class AddEditCardActivity : AppCompatActivity() {
             return
         }
 
-        // 如果是天数卡，需要验证每天收费金额
         var dailyRate: Double? = null
         if (cardType == CardType.DAILY) {
             val dailyRateString = binding.etDailyRate.text.toString().trim()
@@ -108,14 +155,15 @@ class AddEditCardActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            val result = viewModel.createCard(name, cardType, initialValue, selectedExpiryDate, dailyRate)
+            val result = viewModel.saveCard(name, cardType, initialValue, selectedExpiryDate, dailyRate)
             if (result.isSuccess) {
-                Toast.makeText(this@AddEditCardActivity, "卡片创建成功", Toast.LENGTH_SHORT).show()
+                val message = if (cardId == -1L) "卡片创建成功" else "卡片修改成功"
+                Toast.makeText(this@AddEditCardActivity, message, Toast.LENGTH_SHORT).show()
                 finish()
             } else {
                 Toast.makeText(
                     this@AddEditCardActivity,
-                    "创建失败：${result.exceptionOrNull()?.message}",
+                    "保存失败：${result.exceptionOrNull()?.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

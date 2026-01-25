@@ -4,6 +4,10 @@
         "source": "com.coinny.storedcard.app-main-47:/mipmap-hdpi/ic_launcher.webp"
     },
     {
+        "merged": "com.coinny.storedcard.app-merged_res-46:/menu_menu_card_detail.xml.flat",
+        "source": "com.coinny.storedcard.app-main-47:/menu/menu_card_detail.xml"
+    },
+    {
         "merged": "com.coinny.storedcard.app-merged_res-46:/mipmap-hdpi_ic_launcher_foreground.webp.flat",
         "source": "com.coinny.storedcard.app-main-47:/mipmap-hdpi/ic_launcher_foreground.webp"
     },

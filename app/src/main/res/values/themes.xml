@@ -28,5 +28,7 @@
 
     <style name="Theme.StoredCard.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.StoredCard.PopupOverlay" parent="ThemeOverlay.MaterialComponents" />
+    <style name="Theme.StoredCard.PopupOverlay" parent="ThemeOverlay.MaterialComponents">
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
 </resources>

@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 2,
-      "versionName": "1.1.0",
-      "outputFile": "coinny-v1.1.0-release.apk"
+      "versionCode": 3,
+      "versionName": "1.2.0",
+      "outputFile": "coinny-v1.2.0-release.apk"
     }
   ],
   "elementType": "File"

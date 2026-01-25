@@ -55,6 +55,12 @@ class CardDetailViewModel(
         cardRepository.updateCard(updatedCard)
     }
 
+    suspend fun deleteCard() {
+        _card.value?.let {
+            cardRepository.deleteCard(it)
+        }
+    }
+
     class Factory(private val context: Context) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             val database = AppDatabase.getDatabase(context)

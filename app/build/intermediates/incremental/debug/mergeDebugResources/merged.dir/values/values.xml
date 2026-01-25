@@ -6661,7 +6661,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <style name="Theme.StoredCard.PopupOverlay" parent="ThemeOverlay.MaterialComponents"/>
+    <style name="Theme.StoredCard.PopupOverlay" parent="ThemeOverlay.MaterialComponents">
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
     <style name="ThemeOverlay.AppCompat" parent="Base.ThemeOverlay.AppCompat"/>
     <style name="ThemeOverlay.AppCompat.ActionBar" parent="Base.ThemeOverlay.AppCompat.ActionBar"/>
     <style name="ThemeOverlay.AppCompat.Dark" parent="Base.ThemeOverlay.AppCompat.Dark"/>

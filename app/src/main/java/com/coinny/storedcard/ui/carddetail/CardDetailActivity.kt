@@ -1,6 +1,9 @@
 package com.coinny.storedcard.ui.carddetail
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -12,6 +15,7 @@ import com.coinny.storedcard.R
 import com.coinny.storedcard.databinding.ActivityCardDetailBinding
 import com.coinny.storedcard.domain.model.CardStatus
 import com.coinny.storedcard.domain.model.CardType
+import com.coinny.storedcard.ui.addedit.AddEditCardActivity
 import com.coinny.storedcard.ui.deduct.DeductDialogFragment
 import com.coinny.storedcard.util.DateUtil
 import kotlinx.coroutines.launch
@@ -151,6 +155,47 @@ class CardDetailActivity : AppCompatActivity() {
     private fun showDeductDialog(isRecharge: Boolean) {
         val dialog = DeductDialogFragment.newInstance(cardId, isRecharge)
         dialog.show(supportFragmentManager, "DeductDialog")
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_card_detail, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_edit -> {
+                val intent = Intent(this, AddEditCardActivity::class.java).apply {
+                    putExtra("CARD_ID", cardId)
+                }
+                startActivity(intent)
+                true
+            }
+            R.id.action_delete -> {
+                showDeleteConfirmDialog()
+                true
+            }
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun showDeleteConfirmDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("删除卡片")
+            .setMessage("确定要删除这张卡片吗？此操作不可撤销，且会删除相关的交易记录。")
+            .setPositiveButton("删除") { _, _ ->
+                lifecycleScope.launch {
+                    viewModel.deleteCard()
+                    Toast.makeText(this@CardDetailActivity, "卡片已删除", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+            }
+            .setNegativeButton("取消", null)
+            .show()
     }
 
     override fun onSupportNavigateUp(): Boolean {
