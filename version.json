@@ -1,7 +1,7 @@
 {
-  "versionCode": 4,
-  "versionName": "1.2.1",
-  "downloadUrl": "https://ghfast.top/https://github.com/jyjy0623/coinny/releases/download/v1.2.1/coinny-v1.2.1-release.apk",
-  "updateMessage": "更新内容：\n1. 修复天数卡（DAILY）后台自动扣费失效的问题\n2. 优化后台任务执行逻辑",
+  "versionCode": 5,
+  "versionName": "1.2.2",
+  "downloadUrl": "https://ghfast.top/https://github.com/jyjy0623/coinny/releases/download/v1.2.2/coinny-v1.2.2-release.apk",
+  "updateMessage": "更新内容：\n1. 优化天数卡自动扣费逻辑\n2. 修复扣费交易记录金额显示异常问题\n3. 升级项目构建环境至最新标准",
   "forceUpdate": false
 }
