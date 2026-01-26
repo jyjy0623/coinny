@@ -33,36 +33,35 @@ class DeductCardUseCase(
 
         // 检查过期时间
         if (card.expiryDate != null && card.expiryDate < System.currentTimeMillis()) {
-            // 更新卡片状态为已过期
             val expiredCard = card.copy(status = CardStatus.EXPIRED)
             cardRepository.updateCard(expiredCard)
             return DeductResult.Error("卡片已过期")
         }
 
         // 根据卡片类型处理扣费
-        val updatedCard = when (card.type) {
+        val deductResult = when (card.type) {
             CardType.AMOUNT -> handleAmountDeduct(card, amount)
             CardType.COUNT -> handleCountDeduct(card, amount)
             CardType.DAILY -> handleDailyDeduct(card)
         }
 
-        return when (updatedCard) {
-            is DeductResult.Error -> updatedCard
+        return when (deductResult) {
+            is DeductResult.Error -> deductResult
             is DeductResult.Success -> {
                 // 更新卡片
-                cardRepository.updateCard(updatedCard.card)
+                cardRepository.updateCard(deductResult.card)
 
-                // 记录交易
+                // 记录交易，使用计算后的实际金额 deductResult.transaction.amount
                 val transaction = Transaction(
                     cardId = cardId,
                     type = TransactionType.DEDUCT,
-                    amount = amount,
+                    amount = deductResult.transaction.amount,
                     note = note
                 )
                 val transactionId = transactionRepository.insertTransaction(transaction)
 
                 DeductResult.Success(
-                    updatedCard.card,
+                    deductResult.card,
                     transaction.copy(id = transactionId)
                 )
             }
@@ -99,29 +98,29 @@ class DeductCardUseCase(
 
     private fun handleDailyDeduct(card: Card): DeductResult {
         val currentTime = System.currentTimeMillis()
+        // 如果是新卡且从未扣费，则从创建时间开始算
         val lastDeductDate = card.lastDeductDate ?: card.createdAt
 
         // 计算经过的天数
         val daysPassed = TimeUnit.MILLISECONDS.toDays(currentTime - lastDeductDate)
 
         if (daysPassed < 1) {
-            return DeductResult.Error("今天已经扣费过了")
+            return DeductResult.Error("未满24小时，无需扣费")
         }
 
-        // 获取每天收费金额
         val dailyRate = card.dailyRate ?: return DeductResult.Error("未设置每天收费金额")
-
-        // 计算需要扣除的总金额
         val totalDeduction = dailyRate * daysPassed
 
         if (card.currentValue < totalDeduction) {
-            return DeductResult.Error("余额不足")
+            // 如果余额不足以支付全部天数，可以考虑扣除剩余所有余额或报错
+            // 这里选择报错，由用户充值后再处理
+            return DeductResult.Error("余额不足以支付 ${daysPassed} 天的费用")
         }
 
         val newValue = card.currentValue - totalDeduction
         val updatedCard = card.copy(
             currentValue = newValue,
-            lastDeductDate = currentTime,
+            lastDeductDate = currentTime, // 更新最后扣费时间
             updatedAt = currentTime
         )
 
