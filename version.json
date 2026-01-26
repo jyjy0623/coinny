@@ -1,7 +1,7 @@
 {
-  "versionCode": 3,
-  "versionName": "1.2.0",
-  "downloadUrl": "https://ghfast.top/https://github.com/jyjy0623/coinny/releases/download/v1.2.0/coinny-v1.2.0-release.apk",
-  "updateMessage": "更新内容：\n1. 增加储值卡编辑和修改功能\n2. 修复深色主题菜单文字显示问题",
+  "versionCode": 4,
+  "versionName": "1.2.1",
+  "downloadUrl": "https://ghfast.top/https://github.com/jyjy0623/coinny/releases/download/v1.2.1/coinny-v1.2.1-release.apk",
+  "updateMessage": "更新内容：\n1. 修复天数卡（DAILY）后台自动扣费失效的问题\n2. 优化后台任务执行逻辑",
   "forceUpdate": false
 }
