@@ -10,6 +10,15 @@ interface TransactionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(transaction: Transaction): Long
 
+    @Update
+    suspend fun update(transaction: Transaction)
+
+    @Delete
+    suspend fun delete(transaction: Transaction)
+
+    @Query("SELECT * FROM transaction_record WHERE id = :id")
+    suspend fun getById(id: Long): Transaction?
+
     @Query("SELECT * FROM transaction_record WHERE card_id = :cardId ORDER BY timestamp DESC")
     fun getByCardId(cardId: Long): Flow<List<Transaction>>
 

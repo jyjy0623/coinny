@@ -10,6 +10,7 @@ import com.coinny.storedcard.data.local.entity.Transaction
 import com.coinny.storedcard.data.repository.CardRepository
 import com.coinny.storedcard.data.repository.TransactionRepository
 import com.coinny.storedcard.domain.model.CardStatus
+import com.coinny.storedcard.domain.model.TransactionType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -59,6 +60,55 @@ class CardDetailViewModel(
         _card.value?.let {
             cardRepository.deleteCard(it)
         }
+    }
+
+    suspend fun deleteTransaction(transaction: Transaction) {
+        val currentCard = _card.value ?: return
+        
+        // 1. 删除交易记录
+        transactionRepository.deleteTransaction(transaction)
+        
+        // 2. 补偿卡片余额
+        val amountAdjustment = when (transaction.type) {
+            TransactionType.DEDUCT -> transaction.amount
+            TransactionType.RECHARGE -> -transaction.amount
+            TransactionType.CREATE -> -transaction.amount
+        }
+        
+        if (amountAdjustment != 0.0) {
+            val updatedCard = currentCard.copy(
+                currentValue = currentCard.currentValue + amountAdjustment,
+                updatedAt = System.currentTimeMillis()
+            )
+            cardRepository.updateCard(updatedCard)
+        }
+    }
+
+    suspend fun updateTransactionAmount(transaction: Transaction, newAmount: Double) {
+        val currentCard = _card.value ?: return
+        
+        // 1. 计算差额并更新卡片余额 (自动对账)
+        val diff = newAmount - transaction.amount
+        val amountAdjustment = when (transaction.type) {
+            TransactionType.DEDUCT -> -diff
+            TransactionType.RECHARGE -> diff
+            TransactionType.CREATE -> diff
+        }
+        
+        if (amountAdjustment != 0.0) {
+            val updatedCard = currentCard.copy(
+                currentValue = currentCard.currentValue + amountAdjustment,
+                updatedAt = System.currentTimeMillis()
+            )
+            cardRepository.updateCard(updatedCard)
+        }
+
+        // 2. 更新交易记录
+        val updatedTransaction = transaction.copy(
+            amount = newAmount,
+            timestamp = System.currentTimeMillis()
+        )
+        transactionRepository.updateTransaction(updatedTransaction)
     }
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {

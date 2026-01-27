@@ -44,6 +44,7 @@ dimen text_size_small
 dimen text_size_xlarge
 drawable ic_launcher_background
 drawable ic_notification
+id action_about
 id action_backup
 id action_check_update
 id action_delete
@@ -70,6 +71,7 @@ id rbDaily
 id recyclerView
 id rgCardType
 id tilDailyRate
+id tilInitialValue
 id toolbar
 id tvAmount
 id tvCardName
@@ -94,6 +96,10 @@ menu menu_main
 mipmap ic_launcher
 mipmap ic_launcher_foreground
 mipmap ic_launcher_round
+string about_build_time
+string about_power_by
+string about_title
+string about_version
 string add_card
 string add_card_title
 string amount
@@ -133,6 +139,7 @@ string expiry_date
 string initial_balance
 string initial_value
 string main_title
+string menu_about
 string menu_backup
 string menu_check_update
 string menu_restore

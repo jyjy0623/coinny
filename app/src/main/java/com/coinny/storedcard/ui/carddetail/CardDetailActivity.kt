@@ -2,9 +2,11 @@ package com.coinny.storedcard.ui.carddetail
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -12,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coinny.storedcard.R
+import com.coinny.storedcard.data.local.entity.Transaction
 import com.coinny.storedcard.databinding.ActivityCardDetailBinding
 import com.coinny.storedcard.domain.model.CardStatus
 import com.coinny.storedcard.domain.model.CardType
@@ -49,11 +52,65 @@ class CardDetailActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        transactionAdapter = TransactionAdapter()
+        transactionAdapter = TransactionAdapter { transaction ->
+            showTransactionOptionsDialog(transaction)
+        }
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(this@CardDetailActivity)
             adapter = transactionAdapter
         }
+    }
+
+    private fun showTransactionOptionsDialog(transaction: Transaction) {
+        val options = arrayOf("修改金额", "删除记录")
+        AlertDialog.Builder(this)
+            .setTitle("操作记录")
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> showEditTransactionAmountDialog(transaction)
+                    1 -> showDeleteTransactionConfirmDialog(transaction)
+                }
+            }
+            .show()
+    }
+
+    private fun showEditTransactionAmountDialog(transaction: Transaction) {
+        val input = EditText(this).apply {
+            inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+            setText(transaction.amount.toString())
+            setSelection(text.length)
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("修改金额")
+            .setView(input)
+            .setPositiveButton("确定") { _, _ ->
+                val newAmount = input.text.toString().toDoubleOrNull()
+                if (newAmount != null && newAmount >= 0) {
+                    lifecycleScope.launch {
+                        viewModel.updateTransactionAmount(transaction, newAmount)
+                        Toast.makeText(this@CardDetailActivity, "金额已修改", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this, "请输入有效的数值", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("取消", null)
+            .show()
+    }
+
+    private fun showDeleteTransactionConfirmDialog(transaction: Transaction) {
+        AlertDialog.Builder(this)
+            .setTitle("删除记录")
+            .setMessage("确定要删除这条交易记录吗？")
+            .setPositiveButton("删除") { _, _ ->
+                lifecycleScope.launch {
+                    viewModel.deleteTransaction(transaction)
+                    Toast.makeText(this@CardDetailActivity, "记录已删除", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("取消", null)
+            .show()
     }
 
     private fun setupListeners() {

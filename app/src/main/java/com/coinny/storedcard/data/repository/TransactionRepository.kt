@@ -11,6 +11,18 @@ class TransactionRepository(private val transactionDao: TransactionDao) {
         return transactionDao.insert(transaction)
     }
 
+    suspend fun updateTransaction(transaction: Transaction) {
+        transactionDao.update(transaction)
+    }
+
+    suspend fun deleteTransaction(transaction: Transaction) {
+        transactionDao.delete(transaction)
+    }
+
+    suspend fun getTransactionById(id: Long): Transaction? {
+        return transactionDao.getById(id)
+    }
+
     fun getTransactionsByCardId(cardId: Long): Flow<List<Transaction>> {
         return transactionDao.getByCardId(cardId)
     }

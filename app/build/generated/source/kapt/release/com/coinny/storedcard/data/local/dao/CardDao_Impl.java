@@ -161,7 +161,7 @@ public final class CardDao_Impl implements CardDao {
   }
 
   @Override
-  public Object insert(final Card card, final Continuation<? super Long> $completion) {
+  public Object insert(final Card card, final Continuation<? super Long> arg1) {
     return CoroutinesRoom.execute(__db, true, new Callable<Long>() {
       @Override
       @NonNull
@@ -175,11 +175,11 @@ public final class CardDao_Impl implements CardDao {
           __db.endTransaction();
         }
       }
-    }, $completion);
+    }, arg1);
   }
 
   @Override
-  public Object delete(final Card card, final Continuation<? super Unit> $completion) {
+  public Object delete(final Card card, final Continuation<? super Unit> arg1) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       @NonNull
@@ -193,11 +193,11 @@ public final class CardDao_Impl implements CardDao {
           __db.endTransaction();
         }
       }
-    }, $completion);
+    }, arg1);
   }
 
   @Override
-  public Object update(final Card card, final Continuation<? super Unit> $completion) {
+  public Object update(final Card card, final Continuation<? super Unit> arg1) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       @NonNull
@@ -211,11 +211,11 @@ public final class CardDao_Impl implements CardDao {
           __db.endTransaction();
         }
       }
-    }, $completion);
+    }, arg1);
   }
 
   @Override
-  public Object getById(final long cardId, final Continuation<? super Card> $completion) {
+  public Object getById(final long cardId, final Continuation<? super Card> arg1) {
     final String _sql = "SELECT * FROM card WHERE id = ?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
     int _argIndex = 1;
@@ -300,7 +300,7 @@ public final class CardDao_Impl implements CardDao {
           _statement.release();
         }
       }
-    }, $completion);
+    }, arg1);
   }
 
   @Override
@@ -673,8 +673,7 @@ public final class CardDao_Impl implements CardDao {
   }
 
   @Override
-  public Object getExpiredCards(final long timestamp,
-      final Continuation<? super List<Card>> $completion) {
+  public Object getExpiredCards(final long timestamp, final Continuation<? super List<Card>> arg1) {
     final String _sql = "SELECT * FROM card WHERE expiry_date IS NOT NULL AND expiry_date <= ?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
     int _argIndex = 1;
@@ -759,12 +758,12 @@ public final class CardDao_Impl implements CardDao {
           _statement.release();
         }
       }
-    }, $completion);
+    }, arg1);
   }
 
   @Override
   public Object getExpiringCards(final long currentTime, final long futureTime,
-      final Continuation<? super List<Card>> $completion) {
+      final Continuation<? super List<Card>> arg2) {
     final String _sql = "SELECT * FROM card WHERE expiry_date IS NOT NULL AND expiry_date > ? AND expiry_date <= ?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 2);
     int _argIndex = 1;
@@ -851,7 +850,7 @@ public final class CardDao_Impl implements CardDao {
           _statement.release();
         }
       }
-    }, $completion);
+    }, arg2);
   }
 
   @NonNull

@@ -33,7 +33,7 @@ class AddEditCardViewModel(
     suspend fun saveCard(
         name: String,
         type: CardType,
-        initialValue: Double,
+        newValue: Double,
         expiryDate: Long?,
         dailyRate: Double? = null
     ): Result<Long> {
@@ -44,8 +44,8 @@ class AddEditCardViewModel(
                 val card = Card(
                     name = name,
                     type = type,
-                    initialValue = initialValue,
-                    currentValue = initialValue,
+                    initialValue = newValue,
+                    currentValue = newValue,
                     expiryDate = expiryDate,
                     status = CardStatus.ACTIVE,
                     dailyRate = dailyRate
@@ -57,22 +57,34 @@ class AddEditCardViewModel(
                 val transaction = Transaction(
                     cardId = cardId,
                     type = TransactionType.CREATE,
-                    amount = initialValue,
+                    amount = newValue,
                     note = "创建卡片"
                 )
                 transactionRepository.insertTransaction(transaction)
                 Result.success(cardId)
             } else {
+                // 修改余额逻辑
+                val diff = newValue - currentCard.currentValue
+                if (diff != 0.0) {
+                    // 生成一笔修改余额的记录
+                    val transactionType = if (diff > 0) TransactionType.RECHARGE else TransactionType.DEDUCT
+                    val transaction = Transaction(
+                        cardId = currentCard.id,
+                        type = transactionType,
+                        amount = Math.abs(diff),
+                        note = "手动修改余额",
+                        timestamp = System.currentTimeMillis()
+                    )
+                    transactionRepository.insertTransaction(transaction)
+                }
+
                 // 更新现有卡片
                 val updatedCard = currentCard.copy(
                     name = name,
-                    type = type,
-                    initialValue = initialValue,
-                    // 如果初始值变了，当前值是否按比例调整或重置？
-                    // 这里简单处理：仅允许修改名称、过期时间和每日费率，类型和金额通常不建议修改
-                    // 但由于用户要求“修改”，我们允许修改名称、过期时间和每日费率
+                    currentValue = newValue, // 更新为新输入的当前余额
                     expiryDate = expiryDate,
-                    dailyRate = dailyRate
+                    dailyRate = dailyRate,
+                    updatedAt = System.currentTimeMillis()
                 )
                 cardRepository.updateCard(updatedCard)
                 Result.success(updatedCard.id)

@@ -14,7 +14,7 @@ class DeductCardUseCase(
     private val transactionRepository: TransactionRepository
 ) {
     sealed class DeductResult {
-        data class Success(val card: Card, val transaction: Transaction) : DeductResult()
+        data class Success(val card: Card, val transactions: List<Transaction>) : DeductResult()
         data class Error(val message: String) : DeductResult()
     }
 
@@ -37,33 +37,31 @@ class DeductCardUseCase(
         }
 
         val deductResult = when (card.type) {
-            CardType.AMOUNT -> handleAmountDeduct(card, amount)
-            CardType.COUNT -> handleCountDeduct(card, amount)
+            CardType.AMOUNT -> handleAmountDeduct(card, amount, note)
+            CardType.COUNT -> handleCountDeduct(card, amount, note)
             CardType.DAILY -> handleDailyDeduct(card)
         }
 
         return when (deductResult) {
             is DeductResult.Error -> deductResult
             is DeductResult.Success -> {
+                // 更新卡片最终状态
                 cardRepository.updateCard(deductResult.card)
 
-                val transaction = Transaction(
-                    cardId = cardId,
-                    type = TransactionType.DEDUCT,
-                    amount = deductResult.transaction.amount,
-                    note = note
-                )
-                val transactionId = transactionRepository.insertTransaction(transaction)
+                // 批量记录所有交易
+                deductResult.transactions.forEach { transaction ->
+                    transactionRepository.insertTransaction(transaction)
+                }
 
                 DeductResult.Success(
                     deductResult.card,
-                    transaction.copy(id = transactionId)
+                    deductResult.transactions
                 )
             }
         }
     }
 
-    private fun handleAmountDeduct(card: Card, amount: Double): DeductResult {
+    private fun handleAmountDeduct(card: Card, amount: Double, note: String?): DeductResult {
         if (card.currentValue < amount) {
             return DeductResult.Error("余额不足")
         }
@@ -73,11 +71,18 @@ class DeductCardUseCase(
             currentValue = newValue,
             updatedAt = System.currentTimeMillis()
         )
+        val transaction = Transaction(
+            cardId = card.id,
+            type = TransactionType.DEDUCT,
+            amount = amount,
+            note = note,
+            timestamp = System.currentTimeMillis()
+        )
 
-        return DeductResult.Success(updatedCard, Transaction(0, 0, TransactionType.DEDUCT, amount))
+        return DeductResult.Success(updatedCard, listOf(transaction))
     }
 
-    private fun handleCountDeduct(card: Card, count: Double): DeductResult {
+    private fun handleCountDeduct(card: Card, count: Double, note: String?): DeductResult {
         if (card.currentValue < count) {
             return DeductResult.Error("次数不足")
         }
@@ -87,8 +92,15 @@ class DeductCardUseCase(
             currentValue = newValue,
             updatedAt = System.currentTimeMillis()
         )
+        val transaction = Transaction(
+            cardId = card.id,
+            type = TransactionType.DEDUCT,
+            amount = count,
+            note = note,
+            timestamp = System.currentTimeMillis()
+        )
 
-        return DeductResult.Success(updatedCard, Transaction(0, 0, TransactionType.DEDUCT, count))
+        return DeductResult.Success(updatedCard, listOf(transaction))
     }
 
     private fun handleDailyDeduct(card: Card): DeductResult {
@@ -98,7 +110,7 @@ class DeductCardUseCase(
         val diffMillis = currentTime - lastDeductDate
         val oneDayMillis = 24 * 60 * 60 * 1000L
         
-        // 恢复为24小时周期，允许1小时容错（23小时即视为满一天）
+        // 计算经过的天数（包含 1 小时容错）
         val daysPassed = (diffMillis + (1 * 60 * 60 * 1000L)) / oneDayMillis
 
         if (daysPassed < 1) {
@@ -112,15 +124,30 @@ class DeductCardUseCase(
             return DeductResult.Error("余额不足以支付 ${daysPassed} 天的费用")
         }
 
-        val newValue = card.currentValue - totalDeduction
-        val nextDeductDate = lastDeductDate + (daysPassed * oneDayMillis)
+        // 按天拆分交易记录
+        val transactions = mutableListOf<Transaction>()
+        var currentBalance = card.currentValue
         
+        for (i in 1..daysPassed.toInt()) {
+            currentBalance -= dailyRate
+            val transactionTime = lastDeductDate + (i * oneDayMillis)
+            transactions.add(
+                Transaction(
+                    cardId = card.id,
+                    type = TransactionType.DEDUCT,
+                    amount = dailyRate,
+                    note = "系统自动扣费",
+                    timestamp = if (transactionTime < currentTime) transactionTime else currentTime
+                )
+            )
+        }
+
         val updatedCard = card.copy(
-            currentValue = newValue,
-            lastDeductDate = nextDeductDate,
+            currentValue = currentBalance,
+            lastDeductDate = lastDeductDate + (daysPassed * oneDayMillis),
             updatedAt = currentTime
         )
 
-        return DeductResult.Success(updatedCard, Transaction(0, 0, TransactionType.DEDUCT, totalDeduction))
+        return DeductResult.Success(updatedCard, transactions)
     }
 }

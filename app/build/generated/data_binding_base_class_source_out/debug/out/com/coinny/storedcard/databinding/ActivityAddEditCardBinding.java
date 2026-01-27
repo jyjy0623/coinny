@@ -55,6 +55,9 @@ public final class ActivityAddEditCardBinding implements ViewBinding {
   public final TextInputLayout tilDailyRate;
 
   @NonNull
+  public final TextInputLayout tilInitialValue;
+
+  @NonNull
   public final TextView tvSelectedDate;
 
   private ActivityAddEditCardBinding(@NonNull ScrollView rootView, @NonNull Button btnSave,
@@ -62,7 +65,7 @@ public final class ActivityAddEditCardBinding implements ViewBinding {
       @NonNull TextInputEditText etDailyRate, @NonNull TextInputEditText etInitialValue,
       @NonNull RadioButton rbAmount, @NonNull RadioButton rbCount, @NonNull RadioButton rbDaily,
       @NonNull RadioGroup rgCardType, @NonNull TextInputLayout tilDailyRate,
-      @NonNull TextView tvSelectedDate) {
+      @NonNull TextInputLayout tilInitialValue, @NonNull TextView tvSelectedDate) {
     this.rootView = rootView;
     this.btnSave = btnSave;
     this.btnSelectDate = btnSelectDate;
@@ -74,6 +77,7 @@ public final class ActivityAddEditCardBinding implements ViewBinding {
     this.rbDaily = rbDaily;
     this.rgCardType = rgCardType;
     this.tilDailyRate = tilDailyRate;
+    this.tilInitialValue = tilInitialValue;
     this.tvSelectedDate = tvSelectedDate;
   }
 
@@ -164,6 +168,12 @@ public final class ActivityAddEditCardBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tilInitialValue;
+      TextInputLayout tilInitialValue = ViewBindings.findChildViewById(rootView, id);
+      if (tilInitialValue == null) {
+        break missingId;
+      }
+
       id = R.id.tvSelectedDate;
       TextView tvSelectedDate = ViewBindings.findChildViewById(rootView, id);
       if (tvSelectedDate == null) {
@@ -172,7 +182,7 @@ public final class ActivityAddEditCardBinding implements ViewBinding {
 
       return new ActivityAddEditCardBinding((ScrollView) rootView, btnSave, btnSelectDate,
           etCardName, etDailyRate, etInitialValue, rbAmount, rbCount, rbDaily, rgCardType,
-          tilDailyRate, tvSelectedDate);
+          tilDailyRate, tilInitialValue, tvSelectedDate);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

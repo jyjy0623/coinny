@@ -18,6 +18,7 @@
     <string name="menu_backup">备份导出</string>
     <string name="menu_restore">导入恢复</string>
     <string name="menu_check_update">检查更新</string>
+    <string name="menu_about">关于应用</string>
 
     <!-- Card Types -->
     <string name="card_type_amount">金额卡</string>
@@ -104,4 +105,10 @@
     <string name="times_unit">次</string>
     <string name="days_unit">天</string>
     <string name="days_left">剩余%d天</string>
+
+    <!-- About -->
+    <string name="about_title">关于应用</string>
+    <string name="about_version">版本号：%1$s</string>
+    <string name="about_build_time">构建时间：%1$s</string>
+    <string name="about_power_by">Powered by %1$s</string>
 </resources>

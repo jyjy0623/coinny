@@ -12,10 +12,13 @@ android {
         applicationId "com.coinny.storedcard"
         minSdk 24
         targetSdk 34
-        versionCode 7
-        versionName "1.2.4"
+        versionCode 8
+        versionName "1.3.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        
+        buildConfigField "String", "BUILD_TIME", "\"${new Date().format("yyyy-MM-dd HH:mm")}\""
+        buildConfigField "String", "ORGANIZATION", "\"Coinny Studio\""
     }
 
     buildTypes {
@@ -36,6 +39,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 
     applicationVariants.all { variant ->

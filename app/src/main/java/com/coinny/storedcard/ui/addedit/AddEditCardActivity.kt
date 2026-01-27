@@ -63,8 +63,18 @@ class AddEditCardActivity : AppCompatActivity() {
             viewModel.card.collect { card ->
                 card?.let {
                     binding.etCardName.setText(it.name)
-                    binding.etInitialValue.setText(it.initialValue.toString())
-                    // 编辑模式下不允许修改卡片类型，因为这会影响已有的交易记录
+                    // 编辑模式下显示当前余额，并允许修改
+                    binding.etInitialValue.setText(it.currentValue.toString())
+                    
+                    // 修改提示词，让用户知道现在这里是修改当前余额
+                    val hint = when (it.type) {
+                        CardType.AMOUNT -> getString(R.string.amount_hint)
+                        CardType.COUNT -> getString(R.string.count_hint)
+                        CardType.DAILY -> getString(R.string.amount_hint)
+                    }
+                    binding.tilInitialValue.hint = "当前余额/次数 ($hint)"
+
+                    // 编辑模式下不允许修改卡片类型
                     binding.rgCardType.isEnabled = false
                     binding.rbAmount.isEnabled = false
                     binding.rbCount.isEnabled = false
@@ -80,8 +90,8 @@ class AddEditCardActivity : AppCompatActivity() {
                         }
                     }
                     
-                    // 编辑模式下也不建议修改初始值，除非确实填错了且没有交易
-                    binding.etInitialValue.isEnabled = false
+                    // 编辑模式下允许修改当前余额
+                    binding.etInitialValue.isEnabled = true
 
                     if (it.expiryDate != null) {
                         selectedExpiryDate = it.expiryDate
@@ -130,12 +140,12 @@ class AddEditCardActivity : AppCompatActivity() {
 
         val valueString = binding.etInitialValue.text.toString().trim()
         if (valueString.isEmpty()) {
-            Toast.makeText(this, "请输入初始值", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "请输入有效数值", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val initialValue = valueString.toDoubleOrNull()
-        if (initialValue == null || initialValue <= 0) {
+        val newValue = valueString.toDoubleOrNull()
+        if (newValue == null || newValue < 0) {
             Toast.makeText(this, "请输入有效的数值", Toast.LENGTH_SHORT).show()
             return
         }
@@ -155,9 +165,9 @@ class AddEditCardActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            val result = viewModel.saveCard(name, cardType, initialValue, selectedExpiryDate, dailyRate)
+            val result = viewModel.saveCard(name, cardType, newValue, selectedExpiryDate, dailyRate)
             if (result.isSuccess) {
-                val message = if (cardId == -1L) "卡片创建成功" else "卡片修改成功"
+                val message = if (cardId == -1L) "卡片创建成功" else "卡片更新成功"
                 Toast.makeText(this@AddEditCardActivity, message, Toast.LENGTH_SHORT).show()
                 finish()
             } else {

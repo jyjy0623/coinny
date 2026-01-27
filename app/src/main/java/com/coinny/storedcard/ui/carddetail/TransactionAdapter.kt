@@ -13,11 +13,13 @@ import com.coinny.storedcard.databinding.ItemTransactionBinding
 import com.coinny.storedcard.domain.model.TransactionType
 import com.coinny.storedcard.util.DateUtil
 
-class TransactionAdapter : ListAdapter<Transaction, TransactionAdapter.TransactionViewHolder>(TransactionDiffCallback()) {
+class TransactionAdapter(
+    private val onLongClick: (Transaction) -> Unit
+) : ListAdapter<Transaction, TransactionAdapter.TransactionViewHolder>(TransactionDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
         val binding = ItemTransactionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return TransactionViewHolder(binding)
+        return TransactionViewHolder(binding, onLongClick)
     }
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
@@ -25,11 +27,17 @@ class TransactionAdapter : ListAdapter<Transaction, TransactionAdapter.Transacti
     }
 
     class TransactionViewHolder(
-        private val binding: ItemTransactionBinding
+        private val binding: ItemTransactionBinding,
+        private val onLongClick: (Transaction) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(transaction: Transaction) {
             binding.apply {
+                root.setOnLongClickListener {
+                    onLongClick(transaction)
+                    true
+                }
+
                 val typeText = when (transaction.type) {
                     TransactionType.CREATE -> root.context.getString(R.string.transaction_create)
                     TransactionType.RECHARGE -> root.context.getString(R.string.transaction_recharge)

@@ -6,9 +6,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.OutOfQuotaPolicy
+import androidx.work.WorkManager
+import com.coinny.storedcard.BuildConfig
 import com.coinny.storedcard.R
 import com.coinny.storedcard.databinding.ActivityMainBinding
 import com.coinny.storedcard.domain.model.VersionInfo
@@ -16,6 +21,7 @@ import com.coinny.storedcard.ui.addedit.AddEditCardActivity
 import com.coinny.storedcard.ui.carddetail.CardDetailActivity
 import com.coinny.storedcard.ui.common.UpdateDialogFragment
 import com.coinny.storedcard.util.VersionCheckUtil
+import com.coinny.storedcard.worker.ExpiryCheckWorker
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -94,8 +100,24 @@ class MainActivity : AppCompatActivity() {
                 checkForUpdate()
                 true
             }
+            R.id.action_about -> {
+                showAboutDialog()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun showAboutDialog() {
+        val aboutMessage = getString(R.string.about_version, BuildConfig.VERSION_NAME) + "\n" +
+                getString(R.string.about_build_time, BuildConfig.BUILD_TIME) + "\n\n" +
+                getString(R.string.about_power_by, BuildConfig.ORGANIZATION)
+
+        AlertDialog.Builder(this)
+            .setTitle(R.string.about_title)
+            .setMessage(aboutMessage)
+            .setPositiveButton(R.string.ok, null)
+            .show()
     }
 
     private fun checkForUpdate() {
