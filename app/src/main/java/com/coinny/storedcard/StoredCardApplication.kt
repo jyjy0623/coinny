@@ -16,7 +16,7 @@ class StoredCardApplication : Application() {
         // 创建通知渠道
         NotificationUtil.createNotificationChannel(this)
 
-        // 设置定期检查任务（每天检查一次）
+        // 设置定期检查任务
         setupExpiryCheckWorker()
     }
 
@@ -25,9 +25,10 @@ class StoredCardApplication : Application() {
             1, TimeUnit.DAYS
         ).build()
 
+        // 修改点：使用 UPDATE 确保新版本安装后任务逻辑被刷新
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
             "ExpiryCheckWorker",
-            ExistingPeriodicWorkPolicy.KEEP,
+            ExistingPeriodicWorkPolicy.UPDATE,
             workRequest
         )
     }
