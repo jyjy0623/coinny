@@ -98,7 +98,7 @@ class DeductCardUseCase(
         val diffMillis = currentTime - lastDeductDate
         val oneDayMillis = 24 * 60 * 60 * 1000L
         
-        // 策略调整：只要超过 23 小时就视为满一天，防止因系统调度波动（如差几分钟）导致漏扣当天
+        // 恢复为24小时周期，允许1小时容错（23小时即视为满一天）
         val daysPassed = (diffMillis + (1 * 60 * 60 * 1000L)) / oneDayMillis
 
         if (daysPassed < 1) {
@@ -113,7 +113,6 @@ class DeductCardUseCase(
         }
 
         val newValue = card.currentValue - totalDeduction
-        // 修正：lastDeductDate 应该按天数递增，而不是直接设为当前时间，这样可以保证扣费周期稳定
         val nextDeductDate = lastDeductDate + (daysPassed * oneDayMillis)
         
         val updatedCard = card.copy(

@@ -4,7 +4,7 @@
             "outputFile": "com.coinny.storedcard.app-mergeDebugResources-44:/values-v16/values-v16.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\ml145\\.gradle\\caches\\8.13\\transforms\\70dae9bf53c6510674b46de0afb13a64\\transformed\\appcompat-1.6.1\\res\\values-v16\\values-v16.xml",
+                    "source": "C:\\Users\\ml145\\.gradle\\caches\\8.13\\transforms\\e601ebd5034f11e67493e02addcc6f93\\transformed\\appcompat-1.6.1\\res\\values-v16\\values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\ml145\\.gradle\\caches\\8.13\\transforms\\8c9039e05ce4050326b30a84a1d11974\\transformed\\core-1.12.0\\res\\values-v16\\values-v16.xml",
+                    "source": "C:\\Users\\ml145\\.gradle\\caches\\8.13\\transforms\\e6448a733ee45e4006fc11f6b7e35372\\transformed\\core-1.12.0\\res\\values-v16\\values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

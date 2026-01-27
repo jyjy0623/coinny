@@ -1,7 +1,7 @@
 {
-  "versionCode": 6,
-  "versionName": "1.2.3",
-  "downloadUrl": "https://ghfast.top/https://github.com/jyjy0623/coinny/releases/download/v1.2.3/coinny-v1.2.3-release.apk",
-  "updateMessage": "更新内容：\n1. 重大更新：优化自动扣费计算模型，支持跨天补扣\n2. 修复部分机型后台任务不及时刷新导致不扣费的问题\n3. 增强系统稳定性",
+  "versionCode": 7,
+  "versionName": "1.2.4",
+  "downloadUrl": "https://ghfast.top/https://github.com/jyjy0623/coinny/releases/download/v1.2.4/coinny-v1.2.4-release.apk",
+  "updateMessage": "更新内容：\n1. 极致优化：新增冷启动立即扣费检查机制\n2. 修复后台任务被系统挂起导致不扣费的问题\n3. 提升补扣费逻辑的及时性和准确性",
   "forceUpdate": true
 }

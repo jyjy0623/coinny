@@ -27,6 +27,6 @@
       applicationId="com.coinny.storedcard"
       generatedSourceFolders="build\generated\source\kapt\release;build\generated\ap_generated_sources\release\out;build\generated\data_binding_base_class_source_out\release\out"
       generatedResourceFolders="build\generated\res\resValues\release"
-      desugaredMethodsFiles="C:\Users\ml145\.gradle\caches\8.13\transforms\2ff459d17a91114c47ad3ae375a28e73\transformed\D8BackportedDesugaredMethods.txt">
+      desugaredMethodsFiles="C:\Users\ml145\.gradle\caches\8.13\transforms\2b5ea8a34a82cb11d0f523640cc8c92e\transformed\D8BackportedDesugaredMethods.txt">
   </artifact>
 </variant>
