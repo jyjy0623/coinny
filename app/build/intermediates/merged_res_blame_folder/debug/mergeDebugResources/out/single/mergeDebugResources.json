@@ -28,16 +28,16 @@
         "source": "C:\\Users\\ml145\\.gradle\\daemon\\8.13\\com.coinny.storedcard.app-main-48:\\mipmap-anydpi-v26\\ic_launcher.xml"
     },
     {
-        "merged": "com.coinny.storedcard.app-debug-46:/layout_activity_add_edit_card.xml.flat",
-        "source": "com.coinny.storedcard.app-main-48:/layout/activity_add_edit_card.xml"
-    },
-    {
         "merged": "C:\\Users\\ml145\\.gradle\\daemon\\8.13\\com.coinny.storedcard.app-debug-46:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
         "source": "C:\\Users\\ml145\\.gradle\\daemon\\8.13\\com.coinny.storedcard.app-main-48:\\mipmap-xhdpi\\ic_launcher_round.webp"
     },
     {
         "merged": "C:\\Users\\ml145\\.gradle\\daemon\\8.13\\com.coinny.storedcard.app-debug-46:\\layout_activity_main.xml.flat",
         "source": "C:\\Users\\ml145\\.gradle\\daemon\\8.13\\com.coinny.storedcard.app-main-48:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "com.coinny.storedcard.app-debug-46:/layout_activity_card_detail.xml.flat",
+        "source": "com.coinny.storedcard.app-main-48:/layout/activity_card_detail.xml"
     },
     {
         "merged": "C:\\Users\\ml145\\.gradle\\daemon\\8.13\\com.coinny.storedcard.app-debug-46:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",

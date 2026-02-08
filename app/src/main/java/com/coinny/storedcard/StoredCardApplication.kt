@@ -13,18 +13,21 @@ class StoredCardApplication : Application() {
         // 创建通知渠道
         NotificationUtil.createNotificationChannel(this)
 
-        // 简化逻辑：每次打开应用时，立即执行一次扣费和状态检查
+        // 1. 彻底取消老版本遗留的后台周期性任务（防止与新逻辑冲突导致双重扣费）
+        WorkManager.getInstance(this).cancelUniqueWork("ExpiryCheckWorker")
+
+        // 2. 执行新的冷启动扣费检查
         triggerDeductionCheck()
     }
 
     private fun triggerDeductionCheck() {
-        // 使用 OneTimeWorkRequest 确保在进入主界面时异步完成计算，不阻塞 UI
         val checkRequest = OneTimeWorkRequestBuilder<ExpiryCheckWorker>()
             .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
             .build()
             
+        // 统一使用一个唯一的任务名称，确保同一时间只有一个检查在跑
         WorkManager.getInstance(this).enqueueUniqueWork(
-            "AppOpenExpiryCheck",
+            "UniversalDeductionCheck",
             ExistingWorkPolicy.REPLACE,
             checkRequest
         )

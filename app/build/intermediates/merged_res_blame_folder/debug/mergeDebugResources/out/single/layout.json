@@ -24,7 +24,7 @@
         "source": "C:\\Users\\ml145\\.gradle\\daemon\\8.13\\com.coinny.storedcard.app-main-48:\\layout\\activity_card_detail.xml"
     },
     {
-        "merged": "com.coinny.storedcard.app-mergeDebugResources-45:/layout/activity_add_edit_card.xml",
-        "source": "com.coinny.storedcard.app-main-48:/layout/activity_add_edit_card.xml"
+        "merged": "com.coinny.storedcard.app-mergeDebugResources-45:/layout/activity_card_detail.xml",
+        "source": "com.coinny.storedcard.app-main-48:/layout/activity_card_detail.xml"
     }
 ]

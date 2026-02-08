@@ -5,10 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
@@ -19,7 +19,7 @@ import java.lang.String;
 
 public final class ActivityCardDetailBinding implements ViewBinding {
   @NonNull
-  private final ScrollView rootView;
+  private final CoordinatorLayout rootView;
 
   @NonNull
   public final Button btnDeduct;
@@ -54,7 +54,7 @@ public final class ActivityCardDetailBinding implements ViewBinding {
   @NonNull
   public final TextView tvStatus;
 
-  private ActivityCardDetailBinding(@NonNull ScrollView rootView, @NonNull Button btnDeduct,
+  private ActivityCardDetailBinding(@NonNull CoordinatorLayout rootView, @NonNull Button btnDeduct,
       @NonNull Button btnPauseResume, @NonNull Button btnRecharge, @NonNull TextView emptyView,
       @NonNull RecyclerView recyclerView, @NonNull TextView tvCardName,
       @NonNull TextView tvCardType, @NonNull TextView tvCurrentValue,
@@ -76,7 +76,7 @@ public final class ActivityCardDetailBinding implements ViewBinding {
 
   @Override
   @NonNull
-  public ScrollView getRoot() {
+  public CoordinatorLayout getRoot() {
     return rootView;
   }
 
@@ -167,7 +167,7 @@ public final class ActivityCardDetailBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityCardDetailBinding((ScrollView) rootView, btnDeduct, btnPauseResume,
+      return new ActivityCardDetailBinding((CoordinatorLayout) rootView, btnDeduct, btnPauseResume,
           btnRecharge, emptyView, recyclerView, tvCardName, tvCardType, tvCurrentValue,
           tvExpiryDate, tvInitialValue, tvStatus);
     }

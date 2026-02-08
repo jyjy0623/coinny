@@ -1,7 +1,7 @@
 {
-  "versionCode": 9,
-  "versionName": "1.3.1",
-  "downloadUrl": "https://ghfast.top/https://github.com/jyjy0623/coinny/releases/download/v1.3.1/coinny-v1.3.1-release.apk",
-  "updateMessage": "更新内容：\n1. 优化系统性能：简化扣费逻辑，改为每次冷启动应用时自动计算。\n2. 移除后台冗余任务，进一步降低耗电量和内存占用。\n3. 增强扣费算法安全性，严格杜绝一天内多次打开重复扣费的问题。",
+  "versionCode": 10,
+  "versionName": "1.3.2",
+  "downloadUrl": "https://ghfast.top/https://github.com/jyjy0623/coinny/releases/download/v1.3.2/coinny-v1.3.2-release.apk",
+  "updateMessage": "更新内容：\n1. 修复重复扣费 Bug：彻底清理老版本遗留的后台任务，统一扣费检查机制。\n2. 优化详情页布局：重构交易记录列表展示逻辑，彻底解决记录超过3条无法显示或无法滚动的 UI 问题。\n3. 提升系统稳定性：优化冷启动检查频率和并发保护。",
   "forceUpdate": true
 }
